@@ -1,5 +1,5 @@
 from balance import app
-from flask import render_template
+from flask import render_template, request, redirect, url_for, flash
 from balance.models import DBManager
 from balance.forms import MovimientoFormulario
 
@@ -22,7 +22,31 @@ def inicio():
 @app.route("/nuevo", methods=["GET", "POST"])
 def nuevo():
     formulario = MovimientoFormulario()
-    return render_template("nuevo_movimiento.html", form=formulario)
+
+    if request.method == 'GET':
+        return render_template("nuevo_movimiento.html", form = formulario)
+    else:
+        if formulario.validate():
+            consulta = """
+                INSERT INTO movimientos (fecha, concepto, ingreso_gasto, cantidad) VALUES (:fecha, :concepto, :ingreso_gasto, :cantidad)
+            
+            """
+            try:
+                dbManager.modificaSQL(consulta, formulario.data)
+            except Exception as e:
+                print("Se ha producido un error de acceso a base de datos:", e)
+                flash("Se ha producido un error en la base de datos. Consulte con su administrador")
+                return render_template("nuevo_movimiento.html", form=formulario)
+
+            return redirect(url_for("inicio"))
+        else:
+            return render_template("nuevo_movimiento.html", form = formulario)
+
+        """
+        Validar formulario
+        Si la validación es OK -> insertar registro en tabla y redireccionar a  / si la validacion es erronea -> devolver el formulario y render_template y preparar nuestra plantilla para gestionar los errores
+
+        """
 
 
 
