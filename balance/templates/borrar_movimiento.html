@@ -3,18 +3,18 @@
 {% block titulo_pagina %} Nuevo movimiento {% endblock %}
 
 {% block contenido_pagina %}
-            <h1>Alta de movimiento</h1>
+            <h1>Borrado de movimiento</h1>
 
-            <form action="/nuevo" method="post">
+            <form action="/borrar/{{id}}" method="post">
                 {{ form.hidden_tag() }}
 
                 <div class="campo-formulario">
                     {{ form.fecha.label() }}
-                    {{ form.fecha(type="date") }}  
+                    {{ form.fecha.fecha.data }}  
                 </div>
                 <div class="campo-formulario">
                     {{ form.concepto.label() }}
-                    {{ form.concepto(placeholder="") }}
+                    {{ form.concepto.data }}
 
                     {% for error in form.concepto.errors %}
                         <p class="error">{{ error }}</p>
@@ -28,12 +28,7 @@
                 </div>
                 <div class="campo-formulario">
                     {{ form.cantidad.label() }}
-                    {{ form.cantidad() }}
-
-                    {% for error in form.cantidad.errors %}
-                    <p class="error">{{ error }}</p>
-
-                    {% endfor %}
+                    {{ form.cantidad.data }}
                 </div>
 
                 {{ form.submit() }}
