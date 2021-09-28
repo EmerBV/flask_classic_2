@@ -37,7 +37,7 @@ def nuevo():
             except Exception as e:
                 print("Se ha producido un error de acceso a base de datos:", e)
                 flash("Se ha producido un error en la base de datos. Consulte con su administrador")
-                return render_template("nuevo_movimiento.html", form=formulario)
+                return render_template("nuevo_movimiento.html", form = formulario)
 
             return redirect(url_for("inicio"))
         else:
@@ -49,10 +49,6 @@ def nuevo():
 
         """
 
-
-
-    return "Pagina de alta de movimiento"
-
 @app.route("/borrar/<int:id>", methods=["GET", "POST"])
 def borrar(id):
     if request.method == 'GET':
@@ -60,10 +56,10 @@ def borrar(id):
         SELECT id, fecha, concepto, ingreso_gasto, cantidad
           FROM movimientos 
         WHERE id = ?;
-    """
+        """
 
         movimientos = dbManager.consultaSQL(consulta, [id])
-        if len(movimientos) ==0:
+        if len(movimientos) == 0:
             flash(f"Movimiento {id} no encontrado")
             return redirect(url_for("inicio"))
 
@@ -71,8 +67,16 @@ def borrar(id):
         el_movimiento["fecha"] = date.fromisoformat(el_movimiento["fecha"])
         formulario = MovimientoFormulario(data=el_movimiento)
 
-        return render_template("borrar_movimiento.html", form=formulario, id=el_movimiento['id'])
+        return render_template("borrar_movimiento.html", form = formulario)
+    else:
+        pass 
+        # TODO  lo mismo que de la linea 31 a 45 de este programa pero con delete en lugar de con insert
+        # validacion opcional
+
+
 
     return 'Hola, soy un POST'
+
+   
 
     

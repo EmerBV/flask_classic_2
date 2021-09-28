@@ -5,26 +5,24 @@
 {% block contenido_pagina %}
             <h1>Borrado de movimiento</h1>
 
-            <form action="/borrar/{{id}}" method="post">
+            <form action="/borrar/{{form.id.data}}" method="post">
                 {{ form.hidden_tag() }}
 
                 <div class="campo-formulario">
                     {{ form.fecha.label() }}
-                    {{ form.fecha.fecha.data }}  
+                    {{ form.fecha.data }}  
                 </div>
                 <div class="campo-formulario">
                     {{ form.concepto.label() }}
                     {{ form.concepto.data }}
-
-                    {% for error in form.concepto.errors %}
-                        <p class="error">{{ error }}</p>
-
-                    {% endfor %}
                 </div>
                 <div class="campo-formulario">
-                    {% for subfield in form.ingreso_gasto %}
-                        {{ subfield }} {{ subfield.label }}
-                    {% endfor %}
+                    <label>Ingreso o gasto</label>
+                    {% if form.ingreso_gasto.data == 'I' %} 
+                        Ingreso 
+                    {% else %} 
+                        Gasto 
+                    {% endif%}
                 </div>
                 <div class="campo-formulario">
                     {{ form.cantidad.label() }}
